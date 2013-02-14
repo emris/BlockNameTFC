@@ -1,0 +1,13 @@
+[
+{
+  "modid": "BlockNameTFC",
+  "name": "Block Name for TerraFirmaCraft",
+  "description": "A simple Server side chat mod that returns the Block Name a player is looking at.",
+  "version": "1.0",
+  "updateUrl": "",
+  "authors": [
+    "Emris_Morath"
+  ],
+
+}
+]
