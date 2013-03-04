@@ -1,27 +1,21 @@
 package emris.mods.BlockNameTFC;
 
-import java.util.BitSet;
 import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StringTranslate;
 import net.minecraft.world.World;
 import TFC.TFCBlocks;
-import TFC.TerraFirmaCraft;
 import TFC.Core.TFC_Core;
-import TFC.Food.CropIndex;
-import TFC.Food.CropManager;
 import TFC.TileEntities.TileEntityCrop;
 import TFC.TileEntities.TileEntityDetailed;
 import TFC.TileEntities.TileEntityPartial;
 import TFC.TileEntities.TileEntityToolRack;
-import TFC.TileEntities.TileEntityWoodConstruct;
 import TFC.WorldGen.DataLayer;
 import TFC.WorldGen.TFCWorldChunkManager;
 
