@@ -7,7 +7,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 
 
-@Mod(modid="BlockNameTFC", name="TFC Block Names", version="1.1")
+@Mod(modid="BlockNameTFC", name="TFC Block Names", version="1.2.b76", dependencies = "required-after:TerraFirmaCraft")
 @NetworkMod(clientSideRequired=false, serverSideRequired=false)
 public class BlockNameTFC {
 

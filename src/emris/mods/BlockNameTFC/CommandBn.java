@@ -12,8 +12,12 @@ import net.minecraft.util.StringTranslate;
 import net.minecraft.world.World;
 import TFC.TFCBlocks;
 import TFC.Core.TFC_Core;
+import TFC.Food.CropIndex;
+import TFC.Food.CropManager;
+import TFC.TileEntities.TileEntityBarrel;
 import TFC.TileEntities.TileEntityCrop;
 import TFC.TileEntities.TileEntityDetailed;
+import TFC.TileEntities.TileEntityIngotPile;
 import TFC.TileEntities.TileEntityPartial;
 import TFC.TileEntities.TileEntityToolRack;
 import TFC.WorldGen.DataLayer;
@@ -81,7 +85,13 @@ public class CommandBn extends CommandBase {
 		String[] AnvilNames = {"Stone", "Copper", "Bronze", "Wrought Iron", "Steel", "Black Steel", "Red Steel", "Blue Steel", "Bismuth Bronze", "Black Bronze", "RoseGold"};
 		String[] dyeColorNames = {"White", "Orange", "Magenta", "Light Blue", "Yellow", "Lime", "Pink", "Gray", "Silver", "Cyan", "Purple", "Blue", "Brown", "Green", "Red", "Black"};
 		String[] cropNames = {"Wheat", "", "Maize", "", "Tomato", "Barley", "", "Rye", "", "Oat", "", "Rice", "", "Potato", "", "Onion", "Cabbage", "Garlic", "Carrot", "Yellow Bell Pepper", "Red Bell Pepper", "Soybean", "Greenbean", "Squash"};
-
+		String[] flora = {"Golden Rod", "Cat Tails"};
+		String[] ingots = {"Bismuth Ingot Pile","Bismuth Bronze Ingot Pile","Black Bronze Ingot Pile",
+							"Black Steel Ingot Pile","Blue Steel Ingot Pile","Brass Ingot Pile","Bronze Ingot Pile",
+							"Copper Ingot Pile","Gold Ingot Pile","Wrought Iron Ingot Pile","Lead Ingot Pile",
+							"Nickel Ingot Pile","Pig Iron Ingot Pile","Platinum Ingot Pile","Red Steel Ingot Pile",
+							"Rose Gold Ingot Pile","Silver Ingot Pile","Steel Ingot Pile","Sterling Silver Ingot Pile",
+							"Tin Ingot Pile","Zinc Ingot Pile"};
 		// Igneous Intrusive Stone
 		if (ID == TFCBlocks.StoneIgIn.blockID){ bName = stoneNames[meta] + " Raw";}
 		else if (ID == TFCBlocks.StoneIgInCobble.blockID){ bName = stoneNames[meta] + " Cobble";}
@@ -122,21 +132,21 @@ public class CommandBn extends CommandBase {
 		else if (ID == TFCBlocks.WallCobbleMM.blockID){ bName = stoneNames[meta + 17] + " Cobble Wall";}
 		else if (ID == TFCBlocks.WallSmoothMM.blockID){ bName = "Smooth " + stoneNames[meta + 17] + " Wall";}
 		else if (ID == TFCBlocks.WallBrickMM.blockID){ bName = stoneNames[meta + 17] + " Brick Wall";}
-        // LooseRock
-        else if (ID == TFCBlocks.LooseRock.blockID){
-        	DataLayer rockLayer = ((TFCWorldChunkManager)world.getWorldChunkManager()).getRockLayerAt(x, z, 0);
-        	bName = stoneNames[TFC_Core.getItemMetaFromStone(rockLayer.data1, rockLayer.data2)] + " Rock"; }
+		// LooseRock
+		else if (ID == TFCBlocks.LooseRock.blockID){
+			DataLayer rockLayer = ((TFCWorldChunkManager)world.getWorldChunkManager()).getRockLayerAt(x, z, 0);
+			bName = stoneNames[TFC_Core.getItemMetaFromStone(rockLayer.data1, rockLayer.data2)] + " Rock"; }
 		
-        // Fruit Trees
-        else if (ID == TFCBlocks.fruitTreeWood.blockID) { bName = FruitTreeNames[meta] + " Tree"; }
-        else if (ID == TFCBlocks.fruitTreeLeaves.blockID) { bName = FruitTreeNames[meta] + " Leaves"; }
-        else if (ID == TFCBlocks.fruitTreeLeaves2.blockID) { bName = FruitTreeNames[meta + 8] + " Leaves"; }
+		// Fruit Trees
+		else if (ID == TFCBlocks.fruitTreeWood.blockID) { bName = FruitTreeNames[meta] + " Tree"; }
+		else if (ID == TFCBlocks.fruitTreeLeaves.blockID) { bName = FruitTreeNames[meta] + " Leaves"; }
+		else if (ID == TFCBlocks.fruitTreeLeaves2.blockID) { bName = FruitTreeNames[meta + 8] + " Leaves"; }
 		
-        // Wood
-        else if (ID == TFCBlocks.Wood.blockID) { bName = WoodNames[meta] + " Tree"; }
-        else if (ID == TFCBlocks.WoodVert.blockID) { bName = WoodNames[meta] + " Log"; }
-        else if (ID == TFCBlocks.WoodHoriz.blockID) { bName = WoodNames[(meta & 7)] + " Log"; }
-        else if (ID == TFCBlocks.WoodHoriz2.blockID) { bName = WoodNames[(meta & 7) + 8] + " Log"; }
+		// Wood
+		else if (ID == TFCBlocks.Wood.blockID) { bName = WoodNames[meta] + " Tree"; }
+		else if (ID == TFCBlocks.WoodVert.blockID) { bName = WoodNames[meta] + " Log"; }
+		else if (ID == TFCBlocks.WoodHoriz.blockID) { bName = WoodNames[(meta & 7)] + " Log"; }
+		else if (ID == TFCBlocks.WoodHoriz2.blockID) { bName = WoodNames[(meta & 7) + 8] + " Log"; }
 		else if (ID == TFCBlocks.Leaves.blockID) { bName = WoodNames[meta] + " Leaves"; }
 		else if (ID == TFCBlocks.Sapling.blockID) { bName = WoodNames[meta] + " Sapling"; }
 		else if (ID == Block.blocksList[5].blockID) { bName = WoodNames[meta] + " Planks"; }
@@ -215,7 +225,7 @@ public class CommandBn extends CommandBase {
 		}
 
 		// Wood Doors
-        else if (ID == TFCBlocks.DoorOak.blockID) {	bName = "Oak Door"; }
+		else if (ID == TFCBlocks.DoorOak.blockID) {	bName = "Oak Door"; }
 		else if (ID == TFCBlocks.DoorAspen.blockID) { bName = "Aspen Door"; }
 		else if (ID == TFCBlocks.DoorChestnut.blockID) { bName = "Chestnut Door"; }
 		else if (ID == TFCBlocks.DoorDouglasFir.blockID) { bName = "Douglas Fir Door"; }
@@ -245,15 +255,15 @@ public class CommandBn extends CommandBase {
 		else if (ID == TFCBlocks.Grass.blockID || ID == TFCBlocks.Grass2.blockID) { bName = "Grass"; }
 		else if (ID == TFCBlocks.DryGrass.blockID || ID == TFCBlocks.DryGrass2.blockID) { bName = "Dry Grass"; }
 
-        // Clay
-     	else if (ID == TFCBlocks.Clay.blockID || ID == TFCBlocks.Clay2.blockID) { bName = "Clay"; }
-     	else if (ID == TFCBlocks.ClayGrass.blockID || ID == TFCBlocks.ClayGrass2.blockID) { bName = "Clay Grass"; }
+		// Clay
+		else if (ID == TFCBlocks.Clay.blockID || ID == TFCBlocks.Clay2.blockID) { bName = "Clay"; }
+		else if (ID == TFCBlocks.ClayGrass.blockID || ID == TFCBlocks.ClayGrass2.blockID) { bName = "Clay Grass"; }
 
 		// Dirt
 		else if (ID == TFCBlocks.Dirt.blockID || ID == TFCBlocks.Dirt2.blockID) { bName = "Dirt"; }
 		
 		// Wool
-        else if (ID == Block.cloth.blockID) { bName = dyeColorNames[meta] + " Wool"; } 
+		else if (ID == Block.cloth.blockID) { bName = dyeColorNames[meta] + " Wool"; } 
 		
 		// Bellows
 		else if (ID == TFCBlocks.Bellows.blockID) { bName = "Bellows"; }
@@ -295,18 +305,39 @@ public class CommandBn extends CommandBase {
 		else if (ID == TFCBlocks.SuperDetailed.blockID) { bName = "Super Detailed Block"; }
 		
 		// Crops
-		// ToDo /////////////////////////////
 		else if (ID == Block.blocksList[59].blockID) {
 			TileEntityCrop te = (TileEntityCrop) world.getBlockTileEntity(x, y, z);
-			//CropIndex crop = CropManager.getInstance().getCropFromId(te.cropId);
-			bName = cropNames[te.cropId]; }
+//			CropIndex i = CropManager.getInstance().getCropFromId(te.cropId);
+			bName = cropNames[te.cropId];
+//			if (te.growth >= i.numGrowthStages) {
+//				bName = bName + " [Fully Grown]";
+//			} else {
+//				bName = bName + " [Still Growing]";
+//			}
+		}
 		
 		// Anvil
 		else if (ID == TFCBlocks.Anvil.blockID) { bName = AnvilNames[(meta & 7)] + " Anvil"; }
 		else if (ID == TFCBlocks.Anvil2.blockID) { bName = AnvilNames[(meta & 7) + 8] + " Anvil"; }
-
-	
-		else { bName = st.getInstance().translateNamedKey(Block.blocksList[ID].getBlockName()); }
+		
+		// Crucible
+		else if (ID == TFCBlocks.Crucible.blockID) { bName = "Crucible"; }
+		
+		// IngotPile
+		else if (ID == TFCBlocks.IngotPile.blockID) {
+			TileEntityIngotPile te = (TileEntityIngotPile) world.getBlockTileEntity(x, y, z);
+			bName = ingots[te.type]; }
+		
+		// Barrel
+		else if (ID == TFCBlocks.Barrel.blockID) {
+			TileEntityBarrel te = (TileEntityBarrel) world.getBlockTileEntity(x, y, z);
+			bName = WoodNames[te.blockMetadata]; }
+		
+		// Flora
+		else if (ID == TFCBlocks.Flora.blockID) {
+			bName = flora[meta]; }
+		
+		else { bName = st.getInstance().translateNamedKey(Block.blocksList[ID].getUnlocalizedName()); }
 
 		return bName;
 	}

@@ -13,7 +13,7 @@ public class PlayerUtils {
 		double v2 = P.prevPosX + (P.posX - P.prevPosX) * v1;
 		double v3 = P.prevPosY + (P.posY - P.prevPosY) * v1 + 1.62D - P.yOffset;
 		double v4 = P.prevPosZ + (P.posZ - P.prevPosZ) * v1;
-		Vec3 v5 = Vec3.vec3dPool.getVecFromPool(v2, v3, v4);
+		Vec3 v5 = Vec3.createVectorHelper(v2, v3, v4);
 		
 		float v6 = P.prevRotationYaw + (P.rotationYaw - P.prevRotationYaw) * v1;
 		float v7 = P.prevRotationPitch + (P.rotationPitch - P.prevRotationPitch) * v1;
